@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        retro: {
+                            primary: '#E6395A',
+                            secondary: '#5E60CE',
+                            accent: '#14B8C4',
+                            dark: '#1A1A2E',
+                            text: '#1F2937',
+                            bg: '#EAE7DC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* Loader */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            background-color: #EAE7DC;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s;
+        }
+
+        .retro-loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .retro-spinner {
+            position: relative;
+            width: 64px;
+            height: 64px;
+        }
+
+        .spinner-circle {
+            width: 100%;
+            height: 100%;
+            border: 6px solid #1A1A2E;
+            border-top-color: #E6395A;
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            background: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .spinner-shadow {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 100%;
+            height: 100%;
+            border: 6px solid #1A1A2E;
+            border-radius: 50%;
+            background: #1A1A2E;
+            z-index: 1;
+        }
+
+        .loading-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: #1A1A2E;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(0.95);
+            }
+        }
+
+        body {
+            background-color: #EAE7DC;
+            color: #1F2937;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Elemen Retro 3D */
+        .retro-3d {
+            border: 2px solid #1A1A2E;
+            box-shadow: 6px 6px 0px #1A1A2E;
+            transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+        }
+
+        /* Hover */
+        button.retro-3d:hover,
+        a.retro-3d:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 9px 0px #1A1A2E;
+        }
+
+        button.retro-3d:active,
+        a.retro-3d:active {
+            transform: translateY(2px);
+            box-shadow: 6px 4px 0px #1A1A2E;
+        }
+
+        .retro-3d:focus-visible {
+            outline: 3px dashed #1A1A2E;
+            outline-offset: 6px;
+        }
+
+        /* Avatar */
+        .retro-avatar {
+            border: 3px solid #1A1A2E;
+            box-shadow: 8px 8px 0px #1A1A2E;
+        }
+
+        /* Animasi Icon */
+        .group:hover .icon-animate {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .icon-animate {
+            transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+</head>
+
+<body class="antialiased min-h-screen flex flex-col items-center py-12 px-4">
+
+    <!-- Animasi Loading Halaman -->
+    <div id="page-loader">
+        <div class="retro-loader-container">
+            <div class="retro-spinner">
+                <div class="spinner-circle"></div>
+                <div class="spinner-shadow"></div>
+            </div>
+            <div class="loading-text">Memuat...</div>
+        </div>
+    </div>
+
+    <!-- Kontainer Utama -->
+    <main class="w-full max-w-md flex flex-col items-center z-10 relative">
+
+        <!-- Bagian Profil -->
+        <header class="flex flex-col items-center text-center gap-4">
+            <img id="profile-avatar" src="" alt="Foto Profil"
+                class="w-[120px] h-[120px] rounded-full retro-avatar object-cover bg-retro-accent">
+            <div class="mt-2">
+                <h1 id="profile-name" class="text-[32px] font-extrabold tracking-wide text-retro-dark"></h1>
+                <p id="profile-bio"
+                    class="text-[15px] font-bold mt-3 px-5 py-1.5 bg-white retro-3d rounded-full inline-block text-retro-text">
+                </p>
+            </div>
+        </header>
+
+        <!-- Bagian Icon Social Media -->
+        <section id="socials-container" class="w-full flex flex-row justify-center gap-5 mt-8 mb-4">
+            <!-- Social media akan dimasukkan via JavaScript -->
+        </section>
+
+        <!-- Kontainer Link Dinamis -->
+        <section id="links-container" class="w-full flex flex-col gap-6 mt-4">
+            <!-- Link akan dimasukkan via JavaScript -->
+        </section>
+
+    </main>
+
+    <!-- Logic -->
+    <script>
+        /**
+         * EDIT DATA ANDA DI SINI
+         * Silakan ganti isi di bawah ini sesuai dengan profil Anda.
+         */
+        const appData = {
+            profile: {
+                name: "YANN",
+                bio: "Yann ALL ROLE",
+                avatar: "https://c.termai.cc/i199/rjwNN74.jpg", // Ganti dengan URL foto Anda
+                title: "Link Referral Saya"
+            },
+            links: [
+                {
+                    title: "NOMOR WA 01",
+                    description: "YANG MAU BUY APK/SEWA BOT",
+                    url: "https://wa.me//6283833981160",
+                    iconClass: "fa-solid fa-link",
+                    color: "bg-retro-primary",
+                    textColor: "text-white"
+                },
+                {
+                    title: "NOMOR WA BOT",
+                    description: "NOMOR BOT NYA JIKA MAU COBA²",
+                    url: "https://wa.me//628813458783",
+                    iconClass: "fa-solid fa-star",
+                    color: "bg-retro-secondary",
+                    textColor: "text-white"
+                },
+                {
+                    title: "GRUP BOT FREE",
+                    description: "GRUP UNTUK PAKAI BOT UNLIMITED",
+                    url: "",
+                    iconClass: "fa-solid fa-bolt",
+                    color: "bg-retro-accent",
+                    textColor: "text-retro-dark"
+                }
+            ],
+            socials: [
+                { platform: "TELEGRAM", url: "https://t.me/yannplengerhabis", iconClass: "fa-brands fa-telegram" },
+                { platform: "TIKTOK", url: "https://www.tiktok.com/@yannsenpai999?_r=1&_t=ZS-95Qdc1l6XOK", iconClass: "fa-brands fa-tiktok" }
+            ]
+        };
+
+        // ENGINE UTAMA - JANGAN DIUBAH KECUALI KAMU MENGERTI JS
+        document.title = appData.profile.title;
+        document.getElementById('profile-name').innerHTML = `${appData.profile.name} <i class="fa-solid fa-circle-check text-retro-primary text-[24px] ml-1"></i>`;
+        document.getElementById('profile-bio').innerHTML = `<i class="fa-solid fa-star text-retro-accent mr-1.5 animate-pulse"></i>${appData.profile.bio}`;
+        document.getElementById('profile-avatar').src = appData.profile.avatar;
+
+        const linksContainer = document.getElementById('links-container');
+        const socialsContainer = document.getElementById('socials-container');
+
+        // Render Icon Social Media
+        appData.socials.forEach(social => {
+            const socialLnk = document.createElement('a');
+            socialLnk.href = social.url;
+            socialLnk.target = "_blank";
+            socialLnk.rel = "noopener noreferrer";
+            socialLnk.setAttribute('aria-label', `Kunjungi ${social.platform} saya`);
+            socialLnk.className = "w-12 h-12 bg-white text-retro-dark retro-3d rounded-full hover:bg-gray-50 flex items-center justify-center group focus-visible:outline-none";
+            socialLnk.innerHTML = `<i class="${social.iconClass} icon-animate text-xl"></i>`;
+            socialsContainer.appendChild(socialLnk);
+        });
+
+        // Render Daftar Link
+        appData.links.forEach(link => {
+            const mainBtn = document.createElement('a');
+            mainBtn.href = link.url;
+            mainBtn.target = "_blank";
+            mainBtn.rel = "noopener noreferrer";
+            mainBtn.className = `w-full min-h-[60px] p-[20px] ${link.color} ${link.textColor} retro-3d rounded-2xl flex items-center gap-4 no-underline group focus-visible:outline-none`;
+            mainBtn.innerHTML = `
+                <div class="w-12 h-12 bg-white text-retro-dark rounded-xl border-2 border-[#1A1A2E] shadow-[3px_3px_0px_#1A1A2E] group-hover:shadow-[4px_4px_0px_#1A1A2E] transition-shadow flex-shrink-0 flex items-center justify-center">
+                    <i class="${link.iconClass} icon-animate text-lg"></i>
+                </div>
+                <div class="flex flex-col text-left justify-center flex-grow">
+                    <span class="font-bold text-[18px] tracking-wide leading-tight">${link.title}</span>
+                    <span class="text-[14px] font-semibold mt-1 font-body leading-[1.4] opacity-90">${link.description}</span>
+                </div>
+            `;
+            linksContainer.appendChild(mainBtn);
+        });
+
+        // Menghilangkan screen loading setelah halaman siap
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('page-loader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                    setTimeout(() => loader.remove(), 500);
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
